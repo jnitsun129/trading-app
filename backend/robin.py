@@ -150,7 +150,6 @@ def execute_buy_order(crypto, buy_amount):
         make_request(crypto, buy_amount, price,
                      'pending', initial_data, type="buy")
         time.sleep(30)
-        breakpoint()
         post_data = get_order_info(id)
         if post_data['state'] == 'filled':
             make_request(crypto, buy_amount,
