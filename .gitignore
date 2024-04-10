@@ -24,3 +24,5 @@ yarn-error.log*
 
 utility_files/
 __pycache__/
+
+trades.csv
