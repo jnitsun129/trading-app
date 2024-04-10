@@ -1,0 +1,54 @@
+.table {
+    font-size: 0.8rem;
+    /* Adjust the size as needed */
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.table th,
+.table td {
+    padding: 8px 12px;
+    /* Reduced padding for a more compact look */
+    text-align: center;
+}
+
+.table th {
+    font-size: 0.9rem;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.table tr:nth-child(odd) td {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.table tr:nth-child(even) td {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.table tr:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.table td:first-child {
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.table td:last-child {
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.status-filled {
+    color: #28a745;
+}
+
+.status-failed {
+    color: #a2332d;
+}
+
+.status-pending {
+    color: #007bff;
+}

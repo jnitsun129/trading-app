@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: rgba(0, 0, 0, 0.9);
+  font-family: 'Open Sans', sans-serif;
+}
+
+.container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  margin: 40px auto;
+  padding: 20px;
+  width: 1160px;
+}
+
+.sections-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-end;
+  /* This aligns children to the right */
+}
+
+.crypto-sections-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.trade-log-section {
+  width: 700px;
+  height: 900px;
+  margin: 10px auto;
+  overflow: auto;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+}
+
+
+.financial-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  flex-shrink: 0;
+  margin-bottom: 15px;
+}
+
+.available-cash,
+.profit {
+  color: #ffd58b;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.available-cash {
+  text-align: left;
+}
+
+.profit {
+  text-align: right;
+}
+
+.current-date,
+h1 {
+  color: #fff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 30px;
+}
+
+.btn-primary {
+  background-color: #f3f3f3;
+  border: 1px solid #d1d1d1;
+  border-radius: 5px;
+  color: #000;
+  height: 38px;
+  margin-bottom: 15px;
+  padding: 10px;
+}

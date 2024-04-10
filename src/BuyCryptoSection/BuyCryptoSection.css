@@ -1,0 +1,60 @@
+.buy-crypto-section h2 {
+    margin-bottom: 20px;
+}
+
+.buy-crypto-section form {
+    display: flex;
+    flex-direction: column;
+}
+
+.buy-crypto-section .form-control,
+.buy-crypto-section .form-select,
+.track-crypto-section .form-select,
+.form-control,
+.btn-primary {
+    background-color: #f3f3f3;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    color: #000;
+    height: 38px;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.buy-crypto-section button {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.buy-crypto-section button:hover {
+    background-color: #0056b3;
+}
+
+.form-select {
+    width: 100%;
+}
+
+.buy-form-group {
+    display: flex;
+    align-items: center;
+}
+
+.amount-input {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.buy-crypto-section {
+    width: 400px;
+    height: 250px;
+    margin: 10px auto;
+    overflow: auto;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+}

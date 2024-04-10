@@ -1,0 +1,251 @@
+.track-crypto-section {
+    width: 400px;
+    height: 630px;
+    margin: 10px auto;
+    overflow: auto;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+}
+
+.track-crypto-section {
+    position: relative;
+    /* Set position to relative */
+}
+
+.add-section-btn.top-right,
+.remove-section-btn.bottom-right {
+    position: absolute;
+    background-color: transparent;
+    color: white;
+    font-size: 24px;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-section-btn.top-right {
+    top: 15px;
+    right: 15px;
+    background-color: #28a745;
+    /* Green background */
+}
+
+.remove-section-btn.bottom-right {
+    bottom: 15px;
+    right: 15px;
+    background-color: #a2332d;
+    /* Red background */
+}
+
+.interval-span-dropdowns {
+    display: flex;
+    gap: 10px;
+    /* Adjust as needed */
+}
+
+.get-graph-btn {
+    background-color: #007bff;
+    /* Bootstrap primary color */
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    height: 38px;
+    border-radius: 5px;
+    padding: 6px 12px;
+    /* Similar to form controls for consistent height */
+    cursor: pointer;
+    font-size: 0.75rem;
+    /* Adjust based on your preference */
+}
+
+.small-dropdown {
+    flex: 1;
+    height: 38px;
+}
+
+
+
+.form__textarea {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    font-size: 1.2rem;
+    color: #fff;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+    resize: none;
+    min-height: 220px;
+}
+
+.form__textarea:focus {
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+}
+
+.form__group {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: -25px;
+    width: 100%;
+    /* Adjusted to fit the container width */
+}
+
+.form__field {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    /* Gray */
+    outline: 0;
+    font-size: 1.2rem;
+    color: black;
+    /* White */
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+
+.form__field::placeholder {
+    color: transparent;
+}
+
+.form__field:focus {
+    padding-bottom: 6px;
+    font-weight: 700;
+}
+
+.form__field:focus+.form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #11998e;
+    font-weight: 700;
+}
+
+.form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: #9b9b9b;
+}
+
+.form__field:placeholder-shown+.form__label {
+    font-size: 1.2rem;
+    cursor: text;
+    top: 20px;
+}
+
+/* Reset input to remove the red box in Firefox */
+.form__field:required,
+.form__field:invalid {
+    box-shadow: none;
+}
+
+.track-crypto-section h2 {
+    margin-bottom: 20px;
+}
+
+.track-crypto-section h3 {
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
+.price-type-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* three columns with equal width */
+    gap: 10px;
+    /* Space between checkboxes */
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /* Adjust the margin as needed */
+    padding-bottom: 10px;
+    /* Space from the elements below */
+    background: #2c3e50;
+    /* Dark background for contrast */
+    border-radius: 5px;
+    /* Rounded corners */
+    padding: 10px;
+    /* Padding inside the container */
+    /* Subtle shadow for depth */
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Styles for each label wrapping the checkbox and its label text */
+.price-type-checkboxes label {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    /* Align to the start of the label */
+    cursor: pointer;
+    color: #ffffff;
+    /* Light text for readability */
+    font-size: 0.8rem;
+    /* Slightly smaller font size */
+}
+
+/* Styles for the checkboxes */
+.price-type-checkboxes input[type="checkbox"] {
+    margin-right: 5px;
+    /* Space between the checkbox and its label text */
+    cursor: pointer;
+}
+
+/* Custom style for checkboxes */
+.price-type-checkboxes input[type="checkbox"] {
+    accent-color: #3498db;
+    /* Color of the checkbox when checked */
+}
+
+/* Override browser styles for checkbox to increase size */
+.price-type-checkboxes input[type="checkbox"] {
+    width: 20px;
+    /* Larger width for better visibility */
+    height: 20px;
+    /* Larger height for better visibility */
+}
+
+/* Custom styles for checked state and hover effect */
+.price-type-checkboxes input[type="checkbox"]:checked {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+.price-type-checkboxes input[type="checkbox"]:not(:checked):hover {
+    border-color: #3498db;
+}
+
+/* Ensure the checkbox has space on the right for visual comfort */
+.price-type-checkboxes label:not(:last-child) {
+    margin-right: 15px;
+}
+
+.crypto-details-box {
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    margin-left: -10px;
+    margin-right: -10px;
+    font-size: 0.9rem;
+}

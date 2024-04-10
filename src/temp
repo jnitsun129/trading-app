@@ -1,0 +1,22 @@
+<div className="form__group field">
+                        <textarea
+                            className="form__field form__textarea"
+                            placeholder={
+                                selectedCrypto
+                                    ? `Ask AI about ${selectedCrypto}`
+                                    : "Select a Crypto"
+                            }
+                            name="query"
+                            id="query"
+                            value={query}
+                            onChange={handleQueryChange}
+                            required></textarea>
+                        <label htmlFor="query" className="form__label">
+                            {selectedCrypto
+                                ? `Ask AI about ${selectedCrypto}`
+                                : "Select a Crypto"}
+                        </label>
+                    </div>
+                    {query && (
+                        <button className="btn btn-primary">Submit</button>
+                    )}

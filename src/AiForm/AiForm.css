@@ -1,0 +1,78 @@
+.ai-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.ai-button {
+    background-color: #007bff;
+    ;
+    /* Green background */
+    color: white;
+    /* White text */
+    padding: 10px 20px;
+    /* Padding around the text */
+    border: none;
+    /* Remove border */
+    border-radius: 5px;
+    /* Rounded corners */
+    cursor: pointer;
+    /* Cursor changes to a hand icon when hovered over */
+    transition: background-color 0.3s, transform 0.2s;
+    /* Smooth transition for background color and transform on hover */
+}
+
+.ai-button:hover {
+    background-color: #007bff;
+    /* Darker shade of green on hover */
+    transform: scale(1.05);
+    /* Slightly increase size on hover */
+}
+
+.form__group {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.form__field.form__textarea {
+    width: calc(100% - 20px);
+    /* Full width minus padding */
+    padding: 10px;
+    /* Padding inside the textarea */
+    border: 1px solid #ccc;
+    /* Light grey border */
+    border-radius: 5px;
+    /* Rounded corners */
+    resize: vertical;
+    /* Allow only vertical resizing */
+    min-height: 100px;
+    /* Minimum height */
+}
+
+.ai-response-container {
+    background-color: #f2f2f2;
+    /* Light grey background */
+    padding: 10px;
+    /* Padding around the text */
+    border-radius: 5px;
+    /* Rounded corners */
+    border: 1px solid #ccc;
+    /* Light grey border */
+    margin-top: 15px;
+    /* Margin from the element above */
+    width: calc(100% - 20px);
+    /* Full width minus padding */
+    max-height: 150px;
+    /* Maximum height */
+    overflow-y: auto;
+    color: black;
+    /* Enable vertical scrolling if content exceeds max-height */
+}
+
+.ai-response-content {
+    white-space: pre-wrap;
+    /* Preserve spaces and line breaks */
+    word-wrap: break-word;
+    /* Break long words to prevent overflow */
+}
