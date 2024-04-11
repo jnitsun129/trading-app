@@ -62,8 +62,6 @@ def positions():
         if float(quantity) > 0:
             current_data = get_crypto_data(currency)
             curr_price = current_data['bid_price']
-            open_price = current_data['open_price']
-            high_price = current_data['high_price']
             info[currency] = {
                 'quantity': quantity,
                 'og_value': og_value,

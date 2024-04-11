@@ -53,6 +53,7 @@ def plot_crypto_prices(data, crypto_title, interval, span, price_data):
     plt.gcf().autofmt_xdate()
     plt.tight_layout()
     plt.ylabel('Price')
+    plt.xlabel('Date')
     plt.legend()
     plt.grid(True)
     buf = BytesIO()

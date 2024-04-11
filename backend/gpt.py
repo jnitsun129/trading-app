@@ -22,7 +22,7 @@ def ask_gpt(file_content, crypto):
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": f"Based on the following content:\n{file_content}\n\nQuestion: {question}"}
         ]
-        response = client.chat.completions.create(model="gpt-3.5-turbo-0125",
+        response = client.chat.completions.create(model="gpt-4",
                                                   messages=messages,
                                                   max_tokens=100)
         answer = response.choices[0].message.content
