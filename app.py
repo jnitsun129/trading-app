@@ -105,8 +105,8 @@ def get_crypto_info(crypto):
 
 @app.route('/buy-crypto/<crypto>/<amount>')
 def buy_crypto(crypto, amount):
-    execute_buy_order(crypto, amount)
-    return jsonify({"message": "Trade data processed successfully"}), 200
+    message = execute_buy_order(crypto, amount)
+    return jsonify({"message": message})
 
 
 @app.route('/ask-ai/<crypto>/<interval>/<span>', methods=['POST'])
@@ -158,11 +158,6 @@ def get_trades():
             trades.append(trade)
     trades = list(reversed(trades))
     return jsonify(trades)
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 
 if __name__ == '__main__':

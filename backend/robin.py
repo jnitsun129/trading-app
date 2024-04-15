@@ -7,6 +7,15 @@ import requests
 from datetime import datetime
 from termcolor import colored
 
+MINS = {
+    'DOGE': 1.0,
+    'XLM': 1.0,
+    'BTC': 0.000001,
+    'SHIB': 500,
+    'XTZ': 0.01,
+    'ETH': 0.0001
+}
+
 
 def hours_to_seconds(hours: int) -> int:
     return hours * 3600
@@ -92,15 +101,7 @@ def is_greater_than(value: float, threshold: float, tol=1e-9) -> bool:
 
 
 def check_if_sell(crypto: str, amount_quantity: float) -> bool:
-    mins = {
-        'DOGE': 1.0,
-        'XLM': 1.0,
-        'BTC': 0.000001,
-        'SHIB': 500,
-        'XTZ': 0.01,
-        'ETH': 0.0001
-    }
-    return is_greater_than(amount_quantity, mins[crypto])
+    return is_greater_than(amount_quantity, MINS[crypto])
 
 
 def log_sell(crypto: str, data: dict) -> None:
@@ -136,13 +137,15 @@ def make_request(crypto: str, quantity: float, price: float, status: str, data: 
 
 def execute_buy_order(crypto: str, buy_amount: str) -> None:
     buy_amount = float(buy_amount)
+    if buy_amount < MINS[crypto]:
+        return {'Message': f'Must buy more than {MINS[crypto]} {crypto} at a time', 'status': 'Not Enough Crypto'}
     account_profile = r.profiles.load_account_profile()
     available_cash = account_profile['cash']
     if available_cash[0] == '$':
         available_cash = available_cash[1:]
     price = get_crypto_price(crypto)
     cost = price * float(buy_amount)
-    if float(available_cash) - 5 >= cost:
+    if float(available_cash) - 0.01 >= cost:
         # print(f"Buying {crypto} for ${buy_amount}")
         initial_data = r.orders.order_buy_crypto_by_quantity(
             crypto, buy_amount)
@@ -157,10 +160,11 @@ def execute_buy_order(crypto: str, buy_amount: str) -> None:
         else:
             make_request(crypto, buy_amount,
                          price, 'failed', post_data, type="buy")
+        return {'Message': f'Order for {buy_amount} {crypto} {" was filled" if post_data["state"] == "filled" else " failed"}', 'status': post_data['state']}
     else:
         # print(f"Insufficient funds to buy \
         # {buy_amount} {crypto}. Available cash: ${available_cash}")
-        return None
+        return {'Message': f'Insufficient funds to buy {buy_amount} {crypto}', 'status': 'Insufficient Funds'}
 
 
 def run_crypto(crypto: str, start_time: int) -> None:

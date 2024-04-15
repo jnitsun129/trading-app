@@ -3,6 +3,7 @@ import "./TrackCryptoSection.css";
 import "../Modal/Modal.css";
 import Modal from "../Modal/Modal.js";
 import AiForm from "../AiForm/AiForm.js";
+import CustomDropdown from "../CustomDropdown/CustomDropdown.js";
 
 const TrackCryptoSection = ({
     cryptos,
@@ -15,15 +16,12 @@ const TrackCryptoSection = ({
     const [selectedCrypto, setSelectedCrypto] = useState("");
     const [interval, setInterval] = useState(""); // Default value as placeholder
     const [span, setSpan] = useState("");
-    const [intervalWord, setIntervalWord] = useState("");
-    const [spanWord, setSpanWord] = useState("");
     const [selectedPrices, setSelectedPrices] = useState([]);
     const [graphImage, setGraphImage] = useState(null);
     const [graphData, setGraphData] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
     const intervals = [
-        { value: "", label: "Interval" }, // Placeholder option
         { value: "15second", label: "15 seconds" },
         { value: "5minute", label: "5 minutes" },
         { value: "10minute", label: "10 minutes" },
@@ -32,7 +30,6 @@ const TrackCryptoSection = ({
         { value: "week", label: "1 week" },
     ];
     const spans = [
-        { value: "", label: "Span" }, // Placeholder option
         { value: "hour", label: "1 hour" },
         { value: "day", label: "1 day" },
         { value: "week", label: "1 week" },
@@ -55,26 +52,6 @@ const TrackCryptoSection = ({
                 ? currentPrices.filter((value) => value !== priceValue)
                 : [...currentPrices, priceValue]
         );
-    };
-
-    const handleSelectChange = (event) => {
-        setSelectedCrypto(event.target.value);
-    };
-
-    const handleIntervalChange = (event) => {
-        const newInterval = event.target.value;
-        setInterval(newInterval);
-        const intervalObj = intervals.find(
-            (item) => item.value === newInterval
-        );
-        setIntervalWord(intervalObj ? intervalObj.label : "");
-    };
-
-    const handleSpanChange = (event) => {
-        const newSpan = event.target.value;
-        setSpan(newSpan);
-        const spanObj = spans.find((item) => item.value === newSpan);
-        setSpanWord(spanObj ? spanObj.label : "");
     };
 
     const fetchCryptoGraph = async () => {
@@ -152,18 +129,15 @@ const TrackCryptoSection = ({
                 +
             </button>
             <h2>Track Crypto</h2>
-            <select
-                className="form-select"
-                id="trackCryptoSymbol"
-                value={selectedCrypto}
-                onChange={handleSelectChange}>
-                <option value="">Select Crypto</option>
-                {cryptos.map((crypto, index) => (
-                    <option key={index} value={crypto}>
-                        {crypto}
-                    </option>
-                ))}
-            </select>
+            <CustomDropdown
+                options={cryptos.map((crypto) => ({
+                    label: crypto,
+                    value: crypto,
+                }))}
+                selectedValue={selectedCrypto}
+                onSelect={setSelectedCrypto}
+                placeholder="Select Crypto"
+            />
             {selectedPosition && (
                 <div className="crypto-info">
                     <div className="crypto-details-box">
@@ -216,34 +190,25 @@ const TrackCryptoSection = ({
                         ))}
                     </div>
                     <div className="interval-span-dropdowns">
-                        <select
-                            className={`form-select small-dropdown ${
-                                interval ? "small-text-select" : ""
-                            }`}
-                            value={interval}
-                            onChange={handleIntervalChange}>
-                            {intervals.map((option, index) => (
-                                <option
-                                    key={index}
-                                    value={option.value || option}>
-                                    {option.label || option}
-                                </option>
-                            ))}
-                        </select>
-                        <select
-                            className={`form-select small-dropdown ${
-                                span ? "small-text-select" : ""
-                            }`}
-                            value={span}
-                            onChange={handleSpanChange}>
-                            {spans.map((option, index) => (
-                                <option
-                                    key={index}
-                                    value={option.value || option}>
-                                    {option.label || option}
-                                </option>
-                            ))}
-                        </select>
+                        <CustomDropdown
+                            options={intervals}
+                            selectedValue={
+                                intervals.find(
+                                    (item) => item.value === interval
+                                )?.label || ""
+                            }
+                            onSelect={setInterval}
+                            placeholder="Select Interval"
+                        />
+                        <CustomDropdown
+                            options={spans}
+                            selectedValue={
+                                spans.find((item) => item.value === span)
+                                    ?.label || ""
+                            }
+                            onSelect={setSpan}
+                            placeholder="Select Span"
+                        />
                         <button
                             className="get-graph-btn"
                             onClick={fetchCryptoGraph}>
@@ -261,14 +226,7 @@ const TrackCryptoSection = ({
             )}
             {showModal && (
                 <Modal
-                    title={
-                        selectedCrypto +
-                        ": Time vs. Price (Every " +
-                        intervalWord +
-                        " over " +
-                        spanWord +
-                        ")"
-                    }
+                    title={selectedCrypto + ": Time vs. Price"}
                     image={imageDiv}
                     form={
                         <AiForm

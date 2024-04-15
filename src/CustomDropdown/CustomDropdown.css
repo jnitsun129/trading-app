@@ -1,0 +1,75 @@
+/* CustomDropdown.css */
+
+.custom-dropdown-container {
+    position: relative;
+    width: 100%;
+
+}
+
+.custom-dropdown-selected {
+    padding: 10px;
+    background: white;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.custom-dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 10;
+    max-height: 130px;
+    overflow-y: auto;
+    transition: max-height 0.3s ease;
+}
+
+.custom-dropdown-item {
+    font-size: 0.7rem;
+    padding: 8px 10px;
+    /* Reduced padding for less vertical space */
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s, padding 0.3s ease;
+    /* Transition for padding */
+}
+
+.custom-dropdown-item:hover {
+    background-color: #777;
+    color: #fffeee;
+}
+
+.custom-dropdown-item.selected {
+    background-color: black;
+    color: white;
+}
+
+.custom-dropdown-selected::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    /* Place it to the far right */
+    top: 50%;
+    /* Center it vertically */
+    transform: translateY(-50%);
+    /* Align it precisely */
+    border: 5px solid transparent;
+    /* Create the arrow using borders */
+    border-top-color: black;
+    /* The top border is the arrow color */
+}
+
+.custom-dropdown-selected.open::after {
+    /* Flip the arrow to point upwards when the dropdown is open */
+    border-top-color: transparent;
+    border-bottom-color: black;
+    /* Now the bottom border is the arrow */
+}
