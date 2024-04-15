@@ -8,7 +8,7 @@ from backend.robin import get_account_info, run, get_crypto_data, execute_buy_or
 from backend.table import plot_crypto_prices
 from backend.gpt import ask_gpt
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="public")
 CORS(app)
 
 
@@ -74,7 +74,7 @@ def positions():
 def get_crypto_graph(crypto: str, interval: str, span: str, price_data: str):
     data = get_crypto_historical(crypto, interval, span)
     price_data = price_data.split(',')
-    base64_image = plot_crypto_prices(data, crypto, interval, span, price_data)
+    base64_image = plot_crypto_prices(data, interval, span, price_data)
     return jsonify({'data': data, 'image': base64_image})
 
 
@@ -109,10 +109,10 @@ def buy_crypto(crypto, amount):
     return jsonify({"message": "Trade data processed successfully"}), 200
 
 
-@app.route('/ask-ai/<crypto>', methods=['POST'])
-def ask_ai(crypto):
+@app.route('/ask-ai/<crypto>/<interval>/<span>', methods=['POST'])
+def ask_ai(crypto, interval, span):
     data = request.json
-    response = ask_gpt(data, crypto)
+    response = ask_gpt(data, crypto, interval, span)
     response = response.replace("'", "")
     response = response.replace("Bullet", "")
     response = response.replace("Points", "")

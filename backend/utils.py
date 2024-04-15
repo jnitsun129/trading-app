@@ -1,4 +1,4 @@
-def get_api_key():
+def get_api_key() -> str:
     with open('./utility_files/open_api_key.txt', 'r') as file:
         key = file.readline().strip()
     return key

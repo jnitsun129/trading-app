@@ -8,11 +8,11 @@ from datetime import datetime
 from termcolor import colored
 
 
-def hours_to_seconds(hours):
+def hours_to_seconds(hours: int) -> int:
     return hours * 3600
 
 
-def get_current_time():
+def get_current_time() -> str:
     now = datetime.now()
     current_time = now.strftime("%I:%M %p")
     return current_time
@@ -28,12 +28,12 @@ def get_login_info() -> dict:
     return data
 
 
-def login_to_robinhood():
+def login_to_robinhood() -> None:
     INFO = get_login_info()
     r.login(INFO['email'], INFO['password'])
 
 
-def get_crypto_price(crypto) -> float:
+def get_crypto_price(crypto: str) -> float:
     data = r.crypto.get_crypto_quote(crypto)
     return float(data['mark_price'])
 
@@ -46,38 +46,38 @@ def get_crypto_position() -> dict:
     return r.crypto.get_crypto_positions()
 
 
-def get_crypto_historical(crypto, interval, span) -> dict:
+def get_crypto_historical(crypto: str, interval: str, span: str) -> dict:
     return r.crypto.get_crypto_historicals(symbol=crypto, interval=interval, span=span)
 
 
-def get_account_info():
+def get_account_info() -> dict:
     account_profile = r.profiles.load_account_profile()
     return account_profile
 
 
-def execute_sell_order(sell_amount, crypto):
+def execute_sell_order(sell_amount: str, crypto: str) -> dict:
     # print(colored(f"Attempting to sell {sell_amount} {crypto}", 'blue'))
     return r.orders.order_sell_crypto_by_quantity(crypto, sell_amount)
 
 
-def get_order_info(order_id):
+def get_order_info(order_id: str) -> dict:
     return r.orders.get_crypto_order_info(order_id)
 
 
-def format_value(value):
+def format_value(value: float) -> float:
     # Format the float with commas as thousands separators and 2 decimal places
     formatted_value = "{:,.2f}".format(value)
     return float(formatted_value)
 
 
-def round_value(value, price=False):
+def round_value(value: float, price=False) -> float:
     if price:
         return float(round(value, 6))
     else:
         return float(round(value, 2))
 
 
-def get_crypto_holding(crypto):
+def get_crypto_holding(crypto: str) -> int:
     crypto_positions = r.crypto.get_crypto_positions()
     for position in crypto_positions:
         if position['currency']['code'] == crypto:
@@ -86,12 +86,12 @@ def get_crypto_holding(crypto):
     return quantity if quantity is not None else "N/A"
 
 
-def is_greater_than(value, threshold, tol=1e-9):
+def is_greater_than(value: float, threshold: float, tol=1e-9) -> bool:
     adjusted_threshold = threshold - tol
     return value > adjusted_threshold
 
 
-def check_if_sell(crypto, amount_quantity):
+def check_if_sell(crypto: str, amount_quantity: float) -> bool:
     mins = {
         'DOGE': 1.0,
         'XLM': 1.0,
@@ -103,7 +103,7 @@ def check_if_sell(crypto, amount_quantity):
     return is_greater_than(amount_quantity, mins[crypto])
 
 
-def log_sell(crypto, data):
+def log_sell(crypto: str, data: dict) -> None:
     amount = float(data['price']) * float(data['quantity'])
     time = get_current_time()
     # print(colored(f"\n\n**SELL**", 'green'))
@@ -117,7 +117,7 @@ def log_sell(crypto, data):
         file.write(time + '\n')
 
 
-def make_request(crypto, quantity, price, status, data, type="sell"):
+def make_request(crypto: str, quantity: float, price: float, status: str, data: dict, type="sell") -> None:
     dollar_value = '$' + str(round_value((quantity * price)))
     quantity = str(round_value(quantity))
     price = '$' + str(round_value(price, True))
@@ -134,7 +134,7 @@ def make_request(crypto, quantity, price, status, data, type="sell"):
     })
 
 
-def execute_buy_order(crypto, buy_amount):
+def execute_buy_order(crypto: str, buy_amount: str) -> None:
     buy_amount = float(buy_amount)
     account_profile = r.profiles.load_account_profile()
     available_cash = account_profile['cash']
@@ -163,7 +163,7 @@ def execute_buy_order(crypto, buy_amount):
         return None
 
 
-def run_crypto(crypto, start_time):
+def run_crypto(crypto: str, start_time: int) -> None:
     initial_holdings = get_crypto_holding(crypto)
     current_price = get_crypto_price(crypto)
     initial_value = initial_holdings * current_price
@@ -206,7 +206,7 @@ def run_crypto(crypto, start_time):
         time.sleep(5)
 
 
-def get_last_order_time():
+def get_last_order_time() -> str:
     last_time = ''
     with open('./orders/time.txt', 'r') as file:
         for line in file:
@@ -214,7 +214,7 @@ def get_last_order_time():
     return last_time
 
 
-def running_sum(start_time):
+def running_sum(start_time: int) -> None:
     while True:
         if time.time() - start_time > RUN_TIME:
             break
@@ -231,7 +231,7 @@ def running_sum(start_time):
         time.sleep(20)
 
 
-def run():
+def run() -> None:
     login_to_robinhood()
     threads = []
     start_time = time.time()

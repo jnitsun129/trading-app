@@ -17,7 +17,7 @@ interval_dict = {'15second': {'name': '15 seconds', 'type': 'seconds', 'value': 
 span_dict = {'hour': {'name': '1 hour', 'type': 'hour', 'value': 1},
              'day': {'name': '1 day', 'type': 'days', 'value': 1},
              'week': {'name': '1 week', 'type': 'week', 'value': 1},
-             'month:': {'name': '1 month', 'type': 'month', 'value': 1},
+             'month': {'name': '1 month', 'type': 'month', 'value': 1},
              '3month': {'name': '3 months', 'type': 'month', 'value': 3},
              'year': {'name': '1 year', 'type': 'year', 'value': 1},
              '5year': {'name': '5 year', 'type': 'year', 'value': 5}}
@@ -25,11 +25,12 @@ date_formats = {
     'minutes': '%Y-%m-%d %H:%M',
     'hour': '%Y-%m-%d %H:%M',
     'seconds': '%Y-%m-%d %H:%M:%S',
-    'days': '%Y-%m-%d'
+    'days': '%Y-%m-%d',
+    'week': '%Y-%m-%d'
 }
 
 
-def plot_crypto_prices(data, crypto_title, interval, span, price_data):
+def plot_crypto_prices(data: list, interval: str, span: str, price_data: list) -> str:
     interval = interval_dict[interval]
     span = span_dict[span]
     dates = [datetime.fromisoformat(
@@ -52,8 +53,6 @@ def plot_crypto_prices(data, crypto_title, interval, span, price_data):
     plt.gca().xaxis.set_major_locator(MaxNLocator(nbins=10))
     plt.gcf().autofmt_xdate()
     plt.tight_layout()
-    plt.ylabel('Price')
-    plt.xlabel('Date')
     plt.legend()
     plt.grid(True)
     buf = BytesIO()

@@ -15,6 +15,8 @@ const TrackCryptoSection = ({
     const [selectedCrypto, setSelectedCrypto] = useState("");
     const [interval, setInterval] = useState(""); // Default value as placeholder
     const [span, setSpan] = useState("");
+    const [intervalWord, setIntervalWord] = useState("");
+    const [spanWord, setSpanWord] = useState("");
     const [selectedPrices, setSelectedPrices] = useState([]);
     const [graphImage, setGraphImage] = useState(null);
     const [graphData, setGraphData] = useState(null);
@@ -41,9 +43,10 @@ const TrackCryptoSection = ({
     ];
 
     const priceOptions = [
-        { value: "high_price", label: "High Price" },
-        { value: "low_price", label: "Low Price" },
-        { value: "open_price", label: "Open Price" },
+        { value: "high_price", label: "High" },
+        { value: "low_price", label: "Low" },
+        { value: "open_price", label: "Open" },
+        { value: "close_price", label: "Close" },
     ];
 
     const handlePriceTypeChange = (priceValue) => {
@@ -59,11 +62,19 @@ const TrackCryptoSection = ({
     };
 
     const handleIntervalChange = (event) => {
-        setInterval(event.target.value);
+        const newInterval = event.target.value;
+        setInterval(newInterval);
+        const intervalObj = intervals.find(
+            (item) => item.value === newInterval
+        );
+        setIntervalWord(intervalObj ? intervalObj.label : "");
     };
 
     const handleSpanChange = (event) => {
-        setSpan(event.target.value);
+        const newSpan = event.target.value;
+        setSpan(newSpan);
+        const spanObj = spans.find((item) => item.value === newSpan);
+        setSpanWord(spanObj ? spanObj.label : "");
     };
 
     const fetchCryptoGraph = async () => {
@@ -250,11 +261,21 @@ const TrackCryptoSection = ({
             )}
             {showModal && (
                 <Modal
+                    title={
+                        selectedCrypto +
+                        ": Time vs. Price (Every " +
+                        intervalWord +
+                        " over " +
+                        spanWord +
+                        ")"
+                    }
                     image={imageDiv}
                     form={
                         <AiForm
                             selectedCrypto={selectedCrypto}
                             graphData={graphData}
+                            interval={interval}
+                            span={span}
                         />
                     }
                     onClose={closeModal}></Modal>

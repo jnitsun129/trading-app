@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import "./AiForm.css";
-const AiForm = ({ selectedCrypto, graphData }) => {
+
+const AiForm = ({ selectedCrypto, graphData, interval, span }) => {
     const [showTextArea, setShowTextArea] = useState(false);
     const [responseText, setResponseText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     const handleButtonClick = async () => {
+        setResponseText("");
+        setShowTextArea(false);
         setIsLoading(true);
         try {
-            const response = await fetch(`/ask-ai/${selectedCrypto}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(graphData),
-            });
+            const response = await fetch(
+                `/ask-ai/${selectedCrypto}/${interval}/${span}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(graphData),
+                }
+            );
 
             if (!response.ok) {
                 throw new Error(`Error: ${response.statusText}`);
@@ -35,7 +41,11 @@ const AiForm = ({ selectedCrypto, graphData }) => {
             <button className="ai-button" onClick={handleButtonClick}>
                 Ask AI about {selectedCrypto || "Select a Crypto"}
             </button>
-            {isLoading && <div>Loading...</div>}
+            {isLoading && (
+                <div className="loading-container">
+                    <img src="./public/loading.gif" alt="Loading" />
+                </div>
+            )}
             {showTextArea && (
                 <div className="ai-response-container">
                     <div className="ai-response-content">{responseText}</div>

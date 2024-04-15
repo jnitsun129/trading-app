@@ -167,23 +167,18 @@
 
 .price-type-checkboxes {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* three columns with equal width */
+    grid-template-columns: repeat(4, 1fr);
+    /* Updated to four columns */
     gap: 10px;
-    /* Space between checkboxes */
+    /* Maintain space between checkboxes */
     margin-top: 10px;
     margin-bottom: 10px;
-    /* Adjust the margin as needed */
     padding-bottom: 10px;
-    /* Space from the elements below */
     background: #2c3e50;
-    /* Dark background for contrast */
+    /* Optional: adjust the background color for contrast */
     border-radius: 5px;
-    /* Rounded corners */
+    /* Rounded corners for the container */
     padding: 10px;
-    /* Padding inside the container */
-    /* Subtle shadow for depth */
-    background-color: rgba(255, 255, 255, 0.15);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border: 0.5px solid rgba(255, 255, 255, 0.2);
 }
