@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import "./AiForm.css";
 
+const { createHeaders } = require("../headers.js");
+
+const API_URL = "http://127.0.0.1:5000";
+
 const AiForm = ({ selectedCrypto, graphData, interval, span }) => {
     const [showTextArea, setShowTextArea] = useState(false);
     const [responseText, setResponseText] = useState("");
@@ -12,12 +16,10 @@ const AiForm = ({ selectedCrypto, graphData, interval, span }) => {
         setIsLoading(true);
         try {
             const response = await fetch(
-                `/ask-ai/${selectedCrypto}/${interval}/${span}`,
+                `${API_URL}/ask-ai/${selectedCrypto}/${interval}/${span}`,
                 {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+                    headers: createHeaders(),
                     body: JSON.stringify(graphData),
                 }
             );

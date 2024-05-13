@@ -3,7 +3,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import TradeDataTable from "./TradeDataTable/TradeDataTable.js";
 import TrackCryptoSection from "./TrackCryptoSection/TrackCryptoSection.js";
 import BuyCryptoSection from "./BuyCryptoSection/BuyCryptoSection.js";
-
+import AutoTradingSection from "./AutoTradingSection/AutoTradingSection.js";
+const { createHeaders } = require("./headers.js");
 function formatNumber(value) {
     // Create an Intl.NumberFormat object for formatting
     const formatter = new Intl.NumberFormat("en-US", {
@@ -17,6 +18,8 @@ function formatNumber(value) {
         return formatter.format(value); // Format the number with commas and fixed decimal places
     }
 }
+
+const API_URL = "http://127.0.0.1:5000";
 
 const App = () => {
     const [trades, setTrades] = useState([]);
@@ -37,7 +40,10 @@ const App = () => {
 
     const fetchPositions = useCallback(async () => {
         try {
-            const response = await fetch("/positions");
+            const response = await fetch(`${API_URL}/positions`, {
+                headers: createHeaders(),
+                method: "GET",
+            });
             const data = await response.json();
             console.log(data);
             setPositions(data.positions); // Store the response in the positions state
@@ -48,7 +54,10 @@ const App = () => {
 
     const fetchTradesData = useCallback(async () => {
         try {
-            const response = await fetch("/get-trades");
+            const response = await fetch(`${API_URL}/get-trades`, {
+                headers: createHeaders(),
+                method: "GET",
+            });
             const data = await response.json();
             // Check if the trades array size has changed
             if (data.length !== trades.length) {
@@ -62,7 +71,10 @@ const App = () => {
 
     const fetchAccountInfo = useCallback(async () => {
         try {
-            const response = await fetch("/account_info");
+            const response = await fetch(`${API_URL}/account_info`, {
+                headers: createHeaders(),
+                method: "GET",
+            });
             const data = await response.json();
             const cash = parseFloat(
                 data.account_info.cash_available_for_withdrawal
@@ -75,7 +87,10 @@ const App = () => {
 
     const fetchCryptos = useCallback(async () => {
         try {
-            const response = await fetch("/get-cryptos");
+            const response = await fetch(`${API_URL}/get-cryptos`, {
+                headers: createHeaders(),
+                method: "GET",
+            });
             const data = await response.json();
             setCryptos(data.cryptos);
         } catch (error) {
@@ -85,7 +100,10 @@ const App = () => {
 
     const fetchProfit = useCallback(async () => {
         try {
-            const response = await fetch("/todays-change");
+            const response = await fetch(`${API_URL}/todays-change`, {
+                headers: createHeaders(),
+                method: "GET",
+            });
             const data = await response.json();
             setProfit(data.successfulTradesSum.toFixed(2));
         } catch (error) {
@@ -141,6 +159,7 @@ const App = () => {
                         availableCash={availableCash}
                         formatNumber={formatNumber}
                     />
+                    <AutoTradingSection cryptos={cryptos}></AutoTradingSection>
                     {trackSections.map((section, index) => (
                         <TrackCryptoSection
                             key={section.id}

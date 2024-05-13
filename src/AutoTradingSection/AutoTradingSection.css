@@ -1,0 +1,81 @@
+.auto-trading-section {
+    width: 400px;
+    margin: 10px auto;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+    /* Ensures consistent spacing between all child elements */
+}
+
+.countdown {
+    position: absolute;
+    top: 15px;
+    /* Near the top border, but with some spacing */
+    right: 10px;
+    /* Near the right border, but with some spacing */
+    background-color: #ffffff;
+    /* Solid white background for visibility */
+    color: #000000;
+    /* Black color for the text */
+    padding: 10px 15px;
+    /* Increased padding for better legibility */
+    border-radius: 10px;
+    /* Rounded corners to match the container */
+    font-size: 16px;
+    /* Larger font size for easy reading */
+    font-weight: bold;
+    /* Bold font for emphasis */
+}
+
+.auto-trading-section h2 {
+    margin-bottom: 10px;
+}
+
+.time-input {
+    display: flex;
+    align-items: center;
+    /* Ensure vertical alignment */
+    justify-content: center;
+    gap: 10px;
+}
+
+.time-input input[type="number"] {
+    flex: none;
+    /* Do not allow the input to grow or shrink */
+    width: 80px;
+    /* Fixed width for the input */
+    padding: 9px;
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.75rem;
+}
+
+.time-input .dropdown-container {
+    flex: none;
+}
+
+.time-input .auto-trading-button {
+    flex: none;
+    width: 150px;
+    padding: 9px 9px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    /* Green background */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.auto-trading-button.stop {
+    background-color: #a2332d;
+    /* Red background for stop */
+}

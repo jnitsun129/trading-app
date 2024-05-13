@@ -16,9 +16,15 @@ MINS = {
     'ETH': 0.0001
 }
 
+STOP_SIGNAL = threading.Event()
+
 
 def hours_to_seconds(hours: int) -> int:
     return hours * 3600
+
+
+def minutes_to_seconds(minutes) -> int:
+    return minutes * 60
 
 
 def get_current_time() -> str:
@@ -122,7 +128,7 @@ def make_request(crypto: str, quantity: float, price: float, status: str, data: 
     dollar_value = '$' + str(round_value((quantity * price)))
     quantity = str(round_value(quantity))
     price = '$' + str(round_value(price, True))
-    requests.post('http://localhost:5000/record-trade', json={
+    requests.post('http://127.0.0.1:5000/record-trade', json={
         'id': data['id'],
         'type': type,
         'crypto': crypto,
@@ -167,7 +173,7 @@ def execute_buy_order(crypto: str, buy_amount: str) -> None:
         return {'Message': f'Insufficient funds to buy {buy_amount} {crypto}', 'status': 'Insufficient Funds'}
 
 
-def run_crypto(crypto: str, start_time: int) -> None:
+def run_crypto(crypto: str, start_time: int, run_time: int) -> None:
     initial_holdings = get_crypto_holding(crypto)
     current_price = get_crypto_price(crypto)
     initial_value = initial_holdings * current_price
@@ -179,7 +185,8 @@ def run_crypto(crypto: str, start_time: int) -> None:
     # print(f"Available Cash: ${available_cash}")
     current_price = get_crypto_price(crypto)
     while True:
-        if time.time() - start_time > RUN_TIME:
+        if STOP_SIGNAL.is_set() or time.time() - start_time >= run_time:
+            print('Stopped Auto Trading Process')
             break
         current_price = get_crypto_price(crypto)
         # print(f"Current {crypto} price: ${current_price}")
@@ -207,7 +214,7 @@ def run_crypto(crypto: str, start_time: int) -> None:
                 # print(colored("**FAILED**\n\n", 'red'))
                 make_request(crypto, to_sell_quantity,
                              current_price, 'failed', post_data)
-        time.sleep(5)
+        time.sleep(2.5)
 
 
 def get_last_order_time() -> str:
@@ -235,14 +242,18 @@ def running_sum(start_time: int) -> None:
         time.sleep(20)
 
 
-def run() -> None:
-    login_to_robinhood()
+def run(run_time, interval, cryptos) -> None:
+    if interval == 'minutes':
+        run_time = minutes_to_seconds(run_time)
+    elif interval == 'hours':
+        run_time = hours_to_seconds(run_time)
     threads = []
     start_time = time.time()
-    for crypto in CRYPTOS:
+    print(run_time)
+    for crypto in cryptos:
         time.sleep(3)
         thread = threading.Thread(
-            target=run_crypto, args=(crypto, start_time))
+            target=run_crypto, args=(crypto, start_time, run_time))
         threads.append(thread)
         thread.start()
 

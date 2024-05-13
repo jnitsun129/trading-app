@@ -3,8 +3,9 @@ import "./TrackCryptoSection.css";
 import "../Modal/Modal.css";
 import Modal from "../Modal/Modal.js";
 import AiForm from "../AiForm/AiForm.js";
-import CustomDropdown from "../CustomDropdown/CustomDropdown.js";
-
+import DropdownCheckbox from "../CustomDropdown/CustomDropdown.js";
+const { createHeaders } = require("../headers.js");
+const API_URL = "http://127.0.0.1:5000";
 const TrackCryptoSection = ({
     cryptos,
     positions,
@@ -77,7 +78,8 @@ const TrackCryptoSection = ({
         closeModal();
         try {
             const response = await fetch(
-                `/get-crypto-graph/${selectedCrypto}/${interval}/${span}/${priceDataString}`
+                `${API_URL}/get-crypto-graph/${selectedCrypto}/${interval}/${span}/${priceDataString}`,
+                { headers: createHeaders(), method: "GET" }
             );
             if (response.status === 500) {
                 alert("Invalid interval/span pairing.");
@@ -129,14 +131,21 @@ const TrackCryptoSection = ({
                 +
             </button>
             <h2>Track Crypto</h2>
-            <CustomDropdown
+            <DropdownCheckbox
                 options={cryptos.map((crypto) => ({
                     label: crypto,
                     value: crypto,
                 }))}
-                selectedValue={selectedCrypto}
-                onSelect={setSelectedCrypto}
-                placeholder="Select Crypto"
+                selectedOptions={
+                    selectedCrypto
+                        ? [{ label: selectedCrypto, value: selectedCrypto }]
+                        : []
+                }
+                setSelectedOptions={(option) =>
+                    setSelectedCrypto(option ? option.value : "")
+                }
+                isMulti={false}
+                placeholder="Select a Crypto"
             />
             {selectedPosition && (
                 <div className="crypto-info">
@@ -190,24 +199,33 @@ const TrackCryptoSection = ({
                         ))}
                     </div>
                     <div className="interval-span-dropdowns">
-                        <CustomDropdown
+                        <DropdownCheckbox
                             options={intervals}
-                            selectedValue={
-                                intervals.find(
-                                    (item) => item.value === interval
-                                )?.label || ""
+                            selectedOptions={
+                                interval
+                                    ? intervals.filter(
+                                          (opt) => opt.value === interval
+                                      )
+                                    : []
                             }
-                            onSelect={setInterval}
-                            placeholder="Select Interval"
+                            setSelectedOptions={(option) =>
+                                setInterval(option ? option.value : "")
+                            }
+                            isMulti={false}
+                            placeholder="Interval"
                         />
-                        <CustomDropdown
+                        <DropdownCheckbox
                             options={spans}
-                            selectedValue={
-                                spans.find((item) => item.value === span)
-                                    ?.label || ""
+                            selectedOptions={
+                                span
+                                    ? spans.filter((opt) => opt.value === span)
+                                    : []
                             }
-                            onSelect={setSpan}
-                            placeholder="Select Span"
+                            setSelectedOptions={(option) =>
+                                setSpan(option ? option.value : "")
+                            }
+                            isMulti={false}
+                            placeholder="Span"
                         />
                         <button
                             className="get-graph-btn"

@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./BuyCryptoSection.css";
-import CustomDropdown from "../CustomDropdown/CustomDropdown";
+import DropdownCheckbox from "../CustomDropdown/CustomDropdown.js";
+const { createHeaders } = require("../headers.js");
+
+const API_URL = "http://127.0.0.1:5000";
+
 const BuyCryptoSection = ({ cryptos, availableCash, formatNumber }) => {
     const [selectedBuyCrypto, setSelectedBuyCrypto] = useState("");
     const [cryptoValue, setCryptoValue] = useState(0);
@@ -11,12 +15,26 @@ const BuyCryptoSection = ({ cryptos, availableCash, formatNumber }) => {
     const [pending, setPending] = useState(false);
     const [textStyle, setTextStyle] = useState({ color: "white" });
 
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setPostMessage("");
+            setTextStyle({ color: "white" });
+        }, 10000); // Clear the postMessage after 10 seconds
+
+        return () => {
+            clearTimeout(timeoutId);
+        };
+    }, [postMessage]);
+
     const handleBuySelectChange = async (selectedCrypto) => {
         setSelectedBuyCrypto(selectedCrypto);
 
         if (selectedCrypto !== "") {
             try {
-                const response = await fetch(`/crypto-info/${selectedCrypto}`);
+                const response = await fetch(
+                    `${API_URL}/crypto-info/${selectedCrypto}`,
+                    { headers: createHeaders(), method: "GET" }
+                );
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -39,7 +57,8 @@ const BuyCryptoSection = ({ cryptos, availableCash, formatNumber }) => {
             setPending(true);
             try {
                 const response = await fetch(
-                    `/buy-crypto/${selectedBuyCrypto}/${enteredAmount}`
+                    `${API_URL}/buy-crypto/${selectedBuyCrypto}/${enteredAmount}`,
+                    { headers: createHeaders(), method: "POST" }
                 );
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -97,15 +116,27 @@ const BuyCryptoSection = ({ cryptos, availableCash, formatNumber }) => {
 
     return (
         <div className="buy-crypto-section">
-            <h2>Buy Cryptocurrency</h2>
+            <h2>Buy Crypto</h2>
             <form id="buyCryptoForm">
-                <CustomDropdown
+                <DropdownCheckbox
                     options={cryptos.map((crypto) => ({
                         label: crypto,
                         value: crypto,
                     }))}
-                    selectedValue={selectedBuyCrypto}
-                    onSelect={handleBuySelectChange}
+                    selectedOptions={
+                        selectedBuyCrypto
+                            ? [
+                                  {
+                                      label: selectedBuyCrypto,
+                                      value: selectedBuyCrypto,
+                                  },
+                              ]
+                            : []
+                    }
+                    setSelectedOptions={(option) =>
+                        handleBuySelectChange(option ? option.value : "")
+                    }
+                    isMulti={false}
                     placeholder="Select a Crypto"
                 />
                 {selectedBuyCrypto && (
@@ -114,11 +145,7 @@ const BuyCryptoSection = ({ cryptos, availableCash, formatNumber }) => {
                             <input
                                 type="number"
                                 className="form-control amount-input"
-                                placeholder={
-                                    selectedBuyCrypto
-                                        ? `Enter amount in ${selectedBuyCrypto}`
-                                        : "Select a Crypto"
-                                }
+                                placeholder={`Enter amount in ${selectedBuyCrypto}`}
                                 value={enteredAmount}
                                 onChange={handleAmountChange}
                             />
